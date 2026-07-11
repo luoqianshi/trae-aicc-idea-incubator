@@ -7,7 +7,7 @@
 <link rel="icon" href="assets/trae-black.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* ============================================================
      TRAE IDEA INCUBATOR · 灵感孵化舱
@@ -44,8 +44,8 @@
     --radius-pill:    9999px;
     --radius-input:   10px;
 
-    --font-display:   "Bricolage Grotesque", "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
-    --font-sans:      "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+    --font-display:   "Bricolage Grotesque", "Plus Jakarta Sans", "Manrope", "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    --font-sans:      "Plus Jakarta Sans", "Bricolage Grotesque", "Manrope", "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
     --font-mono:      "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   }
 
@@ -561,7 +561,7 @@
   /* ---------- Step Cards ---------- */
   .step-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: 1fr;
     gap: 20px;
     margin-bottom: 40px;
   }
@@ -692,9 +692,15 @@
   /* ---------- Mindmap Grid ---------- */
   .mindmap-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     margin-bottom: 40px;
+  }
+  .mindmap-grid.mindmap-grid-2col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .mindmap-grid-2col .mindmap-node-wide {
+    grid-column: 1 / -1;
   }
   .mindmap-node {
     background: var(--bg-card);
@@ -778,6 +784,15 @@
     font-size: 24px;
     box-shadow: 0 0 24px var(--accent-glow);
     position: relative;
+    z-index: 1;
+  }
+  .result-card-preview > img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
     z-index: 1;
   }
   .result-card-body {
@@ -1020,6 +1035,268 @@
       transition-duration: 0.01ms !important;
     }
     #particle-canvas { display: none; }
+  }
+
+  /* ---------- Screenshot Preview (inline, leading) ---------- */
+  .screenshot-preview {
+    position: relative;
+    margin: 0 0 48px;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(34, 197, 94, 0.04);
+    transition: all 0.35s ease;
+  }
+  .screenshot-preview:hover {
+    border-color: rgba(34, 197, 94, 0.35);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 40px rgba(34, 197, 94, 0.12);
+  }
+  .screenshot-preview::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.4), transparent);
+  }
+  .screenshot-preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 560px;
+    object-fit: cover;
+    object-position: top center;
+  }
+  .screenshot-caption {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 20px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    letter-spacing: 0.5px;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid var(--border);
+  }
+  .screenshot-caption::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
+    flex-shrink: 0;
+  }
+
+  /* ---------- Quote Block Mini (compact conclusion) ---------- */
+  .quote-block-mini {
+    text-align: left;
+    padding: 20px 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent);
+    border-radius: 12px;
+    margin: 40px 0 0;
+    position: relative;
+  }
+  .quote-block-mini blockquote {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin: 0;
+    max-width: none;
+  }
+  .quote-block-mini .label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .quote-block-mini .label::before {
+    content: "";
+    width: 4px; height: 4px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--accent-glow);
+  }
+
+  /* ---------- Inline Carousel (Section 02 浇灌) ---------- */
+  .screenshot-carousel {
+    position: relative;
+    margin: 0 0 32px;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(34, 197, 94, 0.04);
+  }
+  .screenshot-carousel::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.4), transparent);
+    z-index: 2;
+  }
+  .screenshot-carousel .carousel-viewport {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16/10;
+  }
+  .screenshot-carousel .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .screenshot-carousel .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .screenshot-carousel .carousel-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+  .screenshot-carousel .carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border-strong);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    z-index: 3;
+  }
+  .screenshot-carousel .carousel-nav:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0, 0, 0, 0.8);
+  }
+  .screenshot-carousel .carousel-nav.prev { left: 16px; }
+  .screenshot-carousel .carousel-nav.next { right: 16px; }
+  .screenshot-carousel .carousel-nav svg {
+    width: 20px; height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+  .screenshot-carousel .carousel-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid var(--border);
+    gap: 16px;
+  }
+  .screenshot-carousel .carousel-counter {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .screenshot-carousel .carousel-counter strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .screenshot-carousel .carousel-dots {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .screenshot-carousel .carousel-dots .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-strong);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .screenshot-carousel .carousel-dots .dot.active {
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+    transform: scale(1.2);
+  }
+  .screenshot-carousel .carousel-dots .dot:hover {
+    background: var(--accent-deep);
+  }
+
+  /* ---------- Synced Step (Section 02 浇灌 · 随轮播切换) ---------- */
+  .synced-step {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    min-height: 180px;
+  }
+  .synced-step::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+  .synced-step .ss-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .synced-step .ss-round {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    padding: 4px 10px;
+    background: var(--accent-soft);
+    border-radius: var(--radius-pill);
+    letter-spacing: 1.5px;
+  }
+  .synced-step h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .synced-step p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    max-width: 720px;
+  }
+  .synced-step .ss-panels {
+    position: relative;
+  }
+  .synced-step .ss-panel {
+    display: none;
+    animation: ssFade 0.45s ease;
+  }
+  .synced-step .ss-panel.active {
+    display: block;
+  }
+  @keyframes ssFade {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   /* ---------- Modal ---------- */
@@ -1311,24 +1588,60 @@
       </div>
     </div>
 
-    <div class="upload-hint reveal">
-      <div class="uh-icon">
-        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="17 8 12 3 7 8"/>
-          <line x1="12" y1="3" x2="12" y2="15"/>
-        </svg>
-      </div>
-      <div class="uh-text">
-        <h5>第一步：下载并上传报名模板文件</h5>
-        <p>点击下方按钮下载模板，然后将 .md 文件上传至 TRAE Work 对话窗口</p>
-      </div>
-      <button class="btn btn-primary" onclick="downloadTemplate()" style="flex-shrink:0;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        下载模板
-      </button>
+    <!-- 真实案例截图 · 优先引导 -->
+    <div class="screenshot-preview reveal">
+      <img src="assets/pic1.png" alt="TRAE Work 灵感播种真实案例截图">
+      <div class="screenshot-caption">REAL CASE · TRAE Work 灵感播种真实过程截图</div>
     </div>
 
+    <!-- 4 步操作流程 · 单列布局 -->
+    <div class="step-grid reveal">
+      <!-- Step 1 · 安装技能 -->
+      <div class="step-card">
+        <div class="step-num">STEP 01</div>
+        <h4>
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          安装技能
+        </h4>
+        <p>首次使用 TRAE Work，前往左上角的【技能模块】，在【技能市场】的【效率提升】分类中安装 <span class="accent">brainstorming</span> 技能</p>
+      </div>
+
+      <!-- Step 2 · 下载并上传报名模板 -->
+      <div class="step-card">
+        <div class="step-num">STEP 02</div>
+        <h4>
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          下载并上传报名模板
+        </h4>
+        <p>点击下方按钮下载模板，然后将大赛官方的报名发文模板 <span class="accent">.md</span> 文件拖入 TRAE Work 对话窗口，让 AI 理解输出格式要求</p>
+        <button class="btn btn-primary" onclick="downloadTemplate()" style="margin-top:8px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          下载模板
+        </button>
+      </div>
+
+      <!-- Step 3 · 启用技能 -->
+      <div class="step-card">
+        <div class="step-num">STEP 03</div>
+        <h4>
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          启用技能
+        </h4>
+        <p>在粘贴提示词之前，输入 <span class="cmd">/brainstorming</span> 显式启用技能，召唤出 <span class="accent">trae 宝</span> 为你参谋灵感设计</p>
+      </div>
+
+      <!-- Step 4 · 粘贴提示词 -->
+      <div class="step-card">
+        <div class="step-num">STEP 04</div>
+        <h4>
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          粘贴提示词
+        </h4>
+        <p>复制下方提示词模板，填入你自己的灵感关键词后发送给 TRAE Work</p>
+      </div>
+    </div>
+
+    <!-- 提示词组件 · 独立于步骤框 -->
     <div class="prompt-card reveal">
       <div class="prompt-card-header">
         <div class="label">
@@ -1351,45 +1664,7 @@
       </div>
     </div>
 
-    <div class="step-grid reveal">
-      <div class="step-card">
-        <div class="step-num">STEP 01</div>
-        <h4>
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-          安装技能
-        </h4>
-        <p>首次使用 TRAE Work，前往左上角的【技能模块】，在【技能市场】的【效率提升】分类中安装 <span class="accent">brainstorming</span> 技能</p>
-        <div class="tip">安装一次即可永久使用，这是灵感梳理的核心引擎</div>
-      </div>
-      <div class="step-card">
-        <div class="step-num">STEP 02</div>
-        <h4>
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          上传模板
-        </h4>
-        <p>将大赛官方的报名发文模板 .md 文件拖入 TRAE Work 对话窗口，让 AI 理解输出格式要求</p>
-        <div class="tip">模板文件包含标题、标签、正文四部分的格式规范</div>
-      </div>
-      <div class="step-card">
-        <div class="step-num">STEP 03</div>
-        <h4>
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          启用技能
-        </h4>
-        <p>在粘贴提示词之前，输入 <span class="cmd">Use Skill: brainstorming</span> 显式启用技能</p>
-        <div class="tip">这会激活 AI 引导式发问功能，结合模板逐步梳理你的灵感</div>
-      </div>
-      <div class="step-card">
-        <div class="step-num">STEP 04</div>
-        <h4>
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-          粘贴提示词
-        </h4>
-        <p>复制上方提示词模板，填入你自己的灵感关键词后发送给 TRAE Work</p>
-        <div class="tip">关键词越具体，AI 引导的方向越精准</div>
-      </div>
-    </div>
-
+    <!-- 关键结论 · 强调味 quote-block（无按钮） -->
     <div class="quote-block reveal">
       <blockquote>
         <span class="mark">"</span>
@@ -1397,10 +1672,6 @@
         <span class="mark">"</span>
       </blockquote>
       <cite>— 灵感孵化舱 · 播种阶段</cite>
-      <button class="btn btn-secondary" onclick="showScreenshot()" style="margin-top:24px;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        查看截图示意
-      </button>
     </div>
   </div>
 </section>
@@ -1428,44 +1699,96 @@
       </div>
     </div>
 
-    <div class="timeline reveal">
-      <div class="timeline-item">
-        <div class="tl-head">
-          <span class="tl-round">Round 1</span>
-          <h4>确认赛道与方向</h4>
+    <!-- 真实案例轮播 · 7 张图依次展示 -->
+    <div class="screenshot-carousel reveal" id="waterCarousel">
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="waterCarouselTrack">
+          <div class="carousel-slide"><img src="assets/pic2.png" alt="Round 1 产品定位"></div>
+          <div class="carousel-slide"><img src="assets/pic3.png" alt="Round 2 视觉风格"></div>
+          <div class="carousel-slide"><img src="assets/pic4.png" alt="Round 3 目标用户"></div>
+          <div class="carousel-slide"><img src="assets/pic5.png" alt="Round 4 痛点洞察"></div>
+          <div class="carousel-slide"><img src="assets/pic6.png" alt="Round 5 核心价值主张"></div>
+          <div class="carousel-slide"><img src="assets/pic7.png" alt="Round 6 创意亮点"></div>
+          <div class="carousel-slide"><img src="assets/pic8.png" alt="Round 7 生成报名帖"></div>
         </div>
-        <p>TRAE Work 会询问你想参加的赛道（生活娱乐 / 学习工作 / 社会服务 / 硬件交互），以及你的核心创意方向。如实回答，AI 会帮你定位。</p>
+        <button class="carousel-nav prev" onclick="waterCarouselChange(-1)" aria-label="上一张">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-nav next" onclick="waterCarouselChange(1)" aria-label="下一张">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
       </div>
-      <div class="timeline-item">
-        <div class="tl-head">
-          <span class="tl-round">Round 2</span>
-          <h4>细化目标用户与痛点</h4>
+      <div class="carousel-foot">
+        <div class="carousel-counter"><strong id="waterCarouselCurrent">1</strong> / 7 · 真实案例：只要今日了</div>
+        <div class="carousel-dots" id="waterCarouselDots">
+          <span class="dot active" onclick="waterCarouselGo(0)"></span>
+          <span class="dot" onclick="waterCarouselGo(1)"></span>
+          <span class="dot" onclick="waterCarouselGo(2)"></span>
+          <span class="dot" onclick="waterCarouselGo(3)"></span>
+          <span class="dot" onclick="waterCarouselGo(4)"></span>
+          <span class="dot" onclick="waterCarouselGo(5)"></span>
+          <span class="dot" onclick="waterCarouselGo(6)"></span>
         </div>
-        <p>AI 会追问：你的产品面向谁？他们在什么场景下使用？没有你的产品他们会遇到什么不便？这些问题帮你找到产品的真实价值锚点。</p>
-      </div>
-      <div class="timeline-item">
-        <div class="tl-head">
-          <span class="tl-round">Round 3</span>
-          <h4>确定产品形态</h4>
-        </div>
-        <p>App、小程序、网站、系统还是硬件？AI 会根据你的描述推荐最合适的产品形态，并给出理由。</p>
-      </div>
-      <div class="timeline-item">
-        <div class="tl-head">
-          <span class="tl-round">Round 4</span>
-          <h4>梳理价值与意义</h4>
-        </div>
-        <p>从商业价值、效率提升、社会价值中选取角度，AI 会帮你把模糊的"我觉得有用"转化为有说服力的价值论述。</p>
-      </div>
-      <div class="timeline-item">
-        <div class="tl-head">
-          <span class="tl-round">Round 5</span>
-          <h4>生成报名帖草稿</h4>
-        </div>
-        <p>所有信息收集完毕后，TRAE Work 会按照模板格式自动生成完整的报名帖文本，你可以直接复制粘贴发布。</p>
+        <div class="carousel-counter" id="waterCarouselLabel">Round 1 · 产品定位</div>
       </div>
     </div>
 
+    <!-- 同步步骤说明 · 随轮播图切换 -->
+    <div class="synced-step reveal" id="waterSyncedStep">
+      <div class="ss-panels">
+        <div class="ss-panel active" data-slide="0">
+          <div class="ss-head">
+            <span class="ss-round">ROUND 01</span>
+            <h4>确认产品定位方向</h4>
+          </div>
+          <p>TRAE Work 会先理解你的初始想法，然后给出 <span class="accent">3 个清晰的方向选项</span>（如"个人效率工具 / 情绪治愈型 / 两者兼顾"），并解释每个方向的差异。你只需 <span class="accent">选择字母</span> 即可完成回答，让 AI 帮你把模糊创意定位到具体方向。</p>
+        </div>
+        <div class="ss-panel" data-slide="1">
+          <div class="ss-head">
+            <span class="ss-round">ROUND 02</span>
+            <h4>选定视觉风格</h4>
+          </div>
+          <p>AI 会推荐 <span class="accent">4 种风格调性</span>（如清新自然 / 温暖手账 / 极简禅意 / 复古怀旧），每种都附带详细的视觉特征描述。你可以直接选择，也可以像示例那样提出 <span class="accent">"每个模块用不同风格"</span> 的创新组合方案，TRAE Work 会主动呼应你的巧思。</p>
+        </div>
+        <div class="ss-panel" data-slide="2">
+          <div class="ss-head">
+            <span class="ss-round">ROUND 03</span>
+            <h4>确定目标用户</h4>
+          </div>
+          <p>AI 会要求你从 <span class="accent">多个候选用户群</span>（学生 / 职场新人 / 创意工作者 / 泛年轻群体）中圈定最核心的服务对象。可以用 <span class="accent">"A\B\C 包含在内的泛年轻群体"</span> 这样的组合表达，让产品定位更精准。</p>
+        </div>
+        <div class="ss-panel" data-slide="3">
+          <div class="ss-head">
+            <span class="ss-round">ROUND 04</span>
+            <h4>痛点洞察（可多选）</h4>
+          </div>
+          <p>AI 会抛出 <span class="accent">5 个常见痛点</span>（工具分散 / 效率工具冰冷 / 缺乏时间感知 / 焦虑感强 / 仪式感缺失），并说明 <span class="accent">可以多选</span>。挑选最贴合你产品的痛点，AI 会主动把答案与你的功能模块对应起来，验证你的设计逻辑。</p>
+        </div>
+        <div class="ss-panel" data-slide="4">
+          <div class="ss-head">
+            <span class="ss-round">ROUND 05</span>
+            <h4>提炼核心价值主张</h4>
+          </div>
+          <p>AI 给出 <span class="accent">3 句候选核心体验</span>（如"时间的朋友 / 一站式治愈 / 活在当下"），帮你把前面的所有选择浓缩为一句 <span class="accent">打动人的价值主张</span>。这一句将直接出现在最终报名帖的"价值与意义"部分。</p>
+        </div>
+        <div class="ss-panel" data-slide="5">
+          <div class="ss-head">
+            <span class="ss-round">ROUND 06</span>
+            <h4>梳理创意亮点</h4>
+          </div>
+          <p>AI 继续追问 <span class="accent">差异化亮点 / 独特之处</span>，比如"时光流转"式的视觉切换、"未来-当下-过去"的理念呼应等。这一步帮你把抽象概念落到 <span class="accent">可被感知的具体场景</span>，让评审一眼看到产品独特性。</p>
+        </div>
+        <div class="ss-panel" data-slide="6">
+          <div class="ss-head">
+            <span class="ss-round">ROUND 07</span>
+            <h4>生成最终报名帖</h4>
+          </div>
+          <p>所有信息收集完毕后，TRAE Work 会 <span class="accent">按报名模板格式</span> 自动生成完整的报名帖文本（标题 + 标签 + 四大正文模块），你可以直接复制粘贴发布，<span class="accent">无需自己排版</span>。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 关键结论 · 强调味 quote-block（无按钮） -->
     <div class="quote-block reveal">
       <blockquote>
         <span class="mark">"</span>
@@ -1473,10 +1796,6 @@
         <span class="mark">"</span>
       </blockquote>
       <cite>— 灵感孵化舱 · 浇灌阶段</cite>
-      <button class="btn btn-secondary" onclick="showScreenshot2()" style="margin-top:24px;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        查看截图示意
-      </button>
     </div>
   </div>
 </section>
@@ -1506,13 +1825,55 @@
       </div>
     </div>
 
+    <!-- 真实案例截图 1 · AI 提交初稿并询问修改意见 -->
+    <div class="screenshot-preview reveal">
+      <img src="assets/pic9.png" alt="TRAE Work 修剪阶段 · 提交初稿并询问修改意见">
+      <div class="screenshot-caption">REAL CASE · TRAE Work 提交初稿并主动询问 4 维修改建议</div>
+    </div>
+
+    <!-- 修剪提示词 · 导出 md -->
+    <div class="prompt-card reveal">
+      <div class="prompt-card-header">
+        <div class="label">
+          <span class="tag-sm">PROMPT</span>
+          修剪提示词 · 让 AI 整理思路
+        </div>
+        <button class="copy-btn" onclick="copyPrompt(this, 'prompt-prune')">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span>复制</span>
+        </button>
+      </div>
+      <div class="prompt-card-body">
+        <div class="prompt-code" id="prompt-prune"><span class="comment"># 当 TRAE Work 按报名稿格式发送初稿后，进入修剪阶段：</span>
+
+<span class="comment"># 如果方案满意，直接导出 md 文件：</span>
+请直接打包为一个 md 文件给我，谢谢！
+
+<span class="comment"># 如果需要进一步迭代，针对性修改后再导出：</span>
+<span class="comment"># 1. 针对不满意的部分与 TRAE Work 交互</span>
+<span class="comment"># 2. 确认满意后，发送：</span>
+请直接打包为一个 md 文件给我，谢谢！</div>
+      </div>
+    </div>
+
+    <!-- 真实案例截图 2 · 最终生成的 .md 报名帖 -->
+    <div class="screenshot-preview reveal">
+      <img src="assets/pic10.png" alt="TRAE Work 最终生成的 .md 报名帖文件预览">
+      <div class="screenshot-caption">REAL CASE · TRAE Work 按模板生成的「只要今日了」报名帖 .md 终稿</div>
+    </div>
+
+    <!-- 阶段说明 + 2x3 对齐角度 -->
+    <p class="reveal" style="font-size:15px;color:var(--text-secondary);max-width:720px;margin:0 0 24px;line-height:1.8;">
+      拿到 TRAE Work 生成的报名帖后，可以从以下 <span class="accent">6 个维度</span> 与 AI 反复对齐，直到确认终稿。每个维度都对应一个可优化的角度，让你的产品报名帖更具说服力。
+    </p>
+
     <div class="mindmap-grid reveal">
       <div class="mindmap-node">
         <div class="node-icon">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
         </div>
         <h5>创意名称</h5>
-        <p>一个简洁有力的名字，让人一眼就知道你要做什么</p>
+        <p>简洁有力的名字，让人一眼就知道你要做什么</p>
       </div>
       <div class="mindmap-node">
         <div class="node-icon">
@@ -1544,48 +1905,21 @@
       </div>
       <div class="mindmap-node">
         <div class="node-icon">
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.39 4.84 5.34.78-3.86 3.77.91 5.31L12 14.27l-4.78 2.43.91-5.31-3.86-3.77 5.34-.78L12 2z"/><path d="M19 14v3a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3"/></svg>
         </div>
-        <h5>HTML Demo</h5>
-        <p>用互动页面展示你的创意，让评审直观感受产品愿景</p>
+        <h5>个性化</h5>
+        <p>增加自想的其他内容，为报名帖注入独特的气质</p>
       </div>
     </div>
 
-    <div class="prompt-card reveal">
-      <div class="prompt-card-header">
-        <div class="label">
-          <span class="tag-sm">PROMPT</span>
-          修剪提示词 · 让 AI 整理思路
-        </div>
-        <button class="copy-btn" onclick="copyPrompt(this, 'prompt-prune')">
-          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <span>复制</span>
-        </button>
-      </div>
-      <div class="prompt-card-body">
-        <div class="prompt-code" id="prompt-prune"><span class="comment"># 当 TRAE Work 按报名稿格式发送初稿后，进入修剪阶段：</span>
-
-<span class="comment"># 如果方案满意，直接导出 md 文件：</span>
-请直接打包为一个 md 文件给我，谢谢！
-
-<span class="comment"># 如果需要进一步迭代，针对性修改后再导出：</span>
-<span class="comment"># 1. 针对不满意的部分与 TRAE Work 交互</span>
-<span class="comment"># 2. 确认满意后，发送：</span>
-请直接打包为一个 md 文件给我，谢谢！</div>
-      </div>
-    </div>
-
+    <!-- 关键结论 · 无按钮 -->
     <div class="quote-block reveal">
       <blockquote>
         <span class="mark">"</span>
-        确认方案满意后，一键导出 md 文件，报名所需材料完成50%。
+        确认方案满意后，一键导出 md 文件，报名所需材料完成 50%。
         <span class="mark">"</span>
       </blockquote>
       <cite>— 灵感孵化舱 · 修剪阶段</cite>
-      <button class="btn btn-secondary" onclick="showScreenshot3()" style="margin-top:24px;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        查看截图示意
-      </button>
     </div>
   </div>
 </section>
@@ -1611,46 +1945,13 @@
       </div>
     </div>
 
-    <p class="reveal" style="font-size:15px;color:var(--text-secondary);max-width:680px;margin-bottom:32px;line-height:1.8;">
-      报名帖的最后一个要求是附带 TRAE Work 生成的 HTML 文件。这一步，你需要让 TRAE 使用前端生成SKILL，配合你喜欢的前端风格模板或者提示词，将你的创意方案转化为一个视觉精美的互动 Demo 页面。
-    </p>
-
-    <div class="skill-tags reveal">
-      <div class="skill-tag"><span class="dot-sm"></span>frontend-design</div>
-      <div class="skill-tag"><span class="dot-sm"></span>frontend-skill</div>
+    <!-- 真实案例截图 · TRAE Work 加载 frontend-design 技能并准备生成 Demo -->
+    <div class="screenshot-preview reveal">
+      <img src="assets/pic11.png" alt="TRAE Work 加载 frontend-design 技能 · 准备生成 HTML Demo">
+      <div class="screenshot-caption">REAL CASE · TRAE Work 加载 frontend-design 技能，根据 Organic.md 风格生成 HTML Demo</div>
     </div>
 
-    <p class="reveal" style="font-size:14px;color:var(--text-muted);max-width:640px;margin-bottom:24px;line-height:1.7;">
-      以上是 TRAE 内置的前端生成相关技能。你也可以让 TRAE 从 GitHub 代码仓库中寻找合适的前端框架或组件库作为参考。
-    </p>
-
-    <div class="github-skills reveal">
-      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">推荐 GitHub 优质前端设计技能：</p>
-      <div class="skill-tags">
-        <a href="https://github.com/alchaincyf/huashu-design" target="_blank" class="skill-tag" style="text-decoration:none;">
-          <span class="dot-sm"></span>
-          huashu-design
-          <span style="font-size:11px;color:var(--text-muted);margin-left:4px;">npx skills add alchaincyf/huashu-design</span>
-        </a>
-        <a href="https://github.com/Leonxlnx/taste-skill" target="_blank" class="skill-tag" style="text-decoration:none;">
-          <span class="dot-sm"></span>
-          taste-skill
-          <span style="font-size:11px;color:var(--text-muted);margin-left:4px;">npx skills add https://github.com/Leonxlnx/taste-skill</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="github-skills reveal" style="margin-top:16px;">
-      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">推荐风格化提示词模板网站：</p>
-      <div class="skill-tags">
-        <a href="https://www.designprompts.dev/" target="_blank" class="skill-tag" style="text-decoration:none;">
-          <span class="dot-sm"></span>
-          DesignPrompts.dev
-          <span style="font-size:11px;color:var(--text-muted);margin-left:4px;">选择你喜欢的前端风格提示词模板</span>
-        </a>
-      </div>
-    </div>
-
+    <!-- 绽放提示词 · 生成 HTML Demo -->
     <div class="prompt-card reveal">
       <div class="prompt-card-header">
         <div class="label">
@@ -1678,6 +1979,55 @@
       </div>
     </div>
 
+    <!-- 工具矩阵 · 2列3行 -->
+    <p class="reveal" style="font-size:15px;color:var(--text-secondary);max-width:720px;margin:0 0 24px;line-height:1.8;">
+      TRAE Work 调用技能时，推荐使用以下 <span class="accent">5 个前端生成工具</span>：TRAE 官方内置 <span class="accent">2 个</span> 前端技能 + GitHub 社区推荐的 <span class="accent">2 个</span> 设计技能 + 1 个风格化提示词模板网站，覆盖从模板调用、风格指引到组件生成的完整链路。
+    </p>
+
+    <div class="mindmap-grid mindmap-grid-2col reveal">
+      <!-- 行 1 · TRAE 官方技能 -->
+      <a href="https://www.trae.cn/ai-creativity" target="_blank" class="mindmap-node" style="text-decoration:none;">
+        <div class="node-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
+        <h5>frontend-design <span style="font-size:11px;color:var(--accent);font-weight:500;font-family:var(--font-mono);margin-left:6px;">OFFICIAL</span></h5>
+        <p>TRAE 官方内置技能，专为生产级 Web App 打造，引导 AI 产出具备排版纪律与组件完整性的高质量前端方案。</p>
+      </a>
+      <a href="https://www.trae.cn/ai-creativity" target="_blank" class="mindmap-node" style="text-decoration:none;">
+        <div class="node-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+        </div>
+        <h5>frontend-skill <span style="font-size:11px;color:var(--accent);font-weight:500;font-family:var(--font-mono);margin-left:6px;">OFFICIAL</span></h5>
+        <p>TRAE 官方前端技能，承担通用页面、组件、布局等基础任务，是日常前端协作的万金油工具。</p>
+      </a>
+
+      <!-- 行 2 · GitHub 推荐技能 -->
+      <a href="https://github.com/alchaincyf/huashu-design" target="_blank" class="mindmap-node" style="text-decoration:none;">
+        <div class="node-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6l-8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h5>huashu-design <span style="font-size:11px;color:var(--accent);font-weight:500;font-family:var(--font-mono);margin-left:6px;">GITHUB</span></h5>
+        <p>花叔开源的 HTML 原生设计技能，集成 20+ 视觉哲学指南，专注高保真 App 原型、PPT、动画、信息图等视觉产出。</p>
+      </a>
+      <a href="https://github.com/Leonxlnx/taste-skill" target="_blank" class="mindmap-node" style="text-decoration:none;">
+        <div class="node-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h5>taste-skill <span style="font-size:11px;color:var(--accent);font-weight:500;font-family:var(--font-mono);margin-left:6px;">GITHUB</span></h5>
+        <p>Anti-Slop Frontend Framework，通过 DESIGN_VARIANCE / MOTION_INTENSITY / VISUAL_DENSITY 三大拨盘控制设计风格，让 AI 摆脱模板感。</p>
+      </a>
+
+      <!-- 行 3 · 前端模板网站 · 独占 2 列 -->
+      <a href="https://www.designprompts.dev/" target="_blank" class="mindmap-node mindmap-node-wide" style="text-decoration:none;">
+        <div class="node-icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h5>DesignPrompts.dev <span style="font-size:11px;color:var(--accent);font-weight:500;font-family:var(--font-mono);margin-left:6px;">TEMPLATE SITE</span></h5>
+        <p>精选设计风格提示词模板库，覆盖 Monochrome / SaaS / Luxury / Cyberpunk / Brutalism / Organic 等 30+ 种风格，将模板直接喂给 AI 即可获得统一且具设计感的视觉输出。</p>
+      </a>
+    </div>
+
+    <!-- 关键结论 · 无按钮 -->
     <div class="quote-block reveal">
       <blockquote>
         <span class="mark">"</span>
@@ -1685,18 +2035,12 @@
         <span class="mark">"</span>
       </blockquote>
       <cite>— 灵感孵化舱 · 绽放阶段</cite>
-      <button class="btn btn-secondary" onclick="showScreenshot6()" style="margin-top:24px;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        查看截图示意
-      </button>
     </div>
 
     <div class="result-showcase reveal">
       <div class="result-card">
         <div class="result-card-preview">
-          <div class="icon-big">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          </div>
+          <img src="assets/pic10.png" alt="TRAE Work 生成的报名帖 .md 文件预览">
         </div>
         <div class="result-card-body">
           <h4>报名帖文本</h4>
@@ -1705,17 +2049,11 @@
             <span>format: markdown</span>
             <span>copy & paste</span>
           </div>
-          <button class="btn btn-secondary" onclick="showScreenshot4()" style="margin-top:12px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            查看成品
-          </button>
         </div>
       </div>
       <div class="result-card">
         <div class="result-card-preview">
-          <div class="icon-big">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          </div>
+          <img src="assets/pic-html-demo.png" alt="TRAE Work 生成的「只要今日了」HTML Demo 成品">
         </div>
         <div class="result-card-body">
           <h4>HTML Demo 文件</h4>
@@ -1724,10 +2062,6 @@
             <span>format: .html</span>
             <span>single file</span>
           </div>
-          <button class="btn btn-secondary" onclick="showScreenshot5()" style="margin-top:12px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            查看成品
-          </button>
         </div>
       </div>
     </div>
@@ -1914,6 +2248,60 @@
 
 <!-- ===================== Scripts ===================== -->
 <script>
+// ---- Water Carousel (Section 02 · 浇灌) ----
+const waterRoundLabels = [
+  'Round 1 · 产品定位',
+  'Round 2 · 视觉风格',
+  'Round 3 · 目标用户',
+  'Round 4 · 痛点洞察',
+  'Round 5 · 价值主张',
+  'Round 6 · 创意亮点',
+  'Round 7 · 报名帖'
+];
+let waterSlide = 0;
+const waterTotal = 7;
+
+function waterCarouselRender() {
+  const track = document.getElementById('waterCarouselTrack');
+  if (track) track.style.transform = `translateX(-${waterSlide * 100}%)`;
+
+  const dots = document.querySelectorAll('#waterCarouselDots .dot');
+  dots.forEach((d, i) => d.classList.toggle('active', i === waterSlide));
+
+  const counter = document.getElementById('waterCarouselCurrent');
+  if (counter) counter.textContent = waterSlide + 1;
+
+  const label = document.getElementById('waterCarouselLabel');
+  if (label) label.textContent = waterRoundLabels[waterSlide] || '';
+
+  // 同步步骤说明面板
+  const panels = document.querySelectorAll('#waterSyncedStep .ss-panel');
+  panels.forEach((p, i) => p.classList.toggle('active', i === waterSlide));
+}
+
+function waterCarouselChange(dir) {
+  waterSlide = (waterSlide + dir + waterTotal) % waterTotal;
+  waterCarouselRender();
+}
+
+function waterCarouselGo(idx) {
+  waterSlide = Math.max(0, Math.min(waterTotal - 1, idx));
+  waterCarouselRender();
+}
+
+// 键盘左右切换支持（仅在水轮播图可见时）
+document.addEventListener('keydown', function(e) {
+  const carousel = document.getElementById('waterCarousel');
+  if (!carousel) return;
+  const rect = carousel.getBoundingClientRect();
+  const inView = rect.top < window.innerHeight && rect.bottom > 0;
+  if (!inView) return;
+  if (e.key === 'ArrowLeft')  { waterCarouselChange(-1); e.preventDefault(); }
+  if (e.key === 'ArrowRight') { waterCarouselChange(1);  e.preventDefault(); }
+});
+
+waterCarouselRender();
+
 // ---- Screenshot Modal ----
 function showScreenshot() {
   document.getElementById('screenshotModal').classList.add('active');

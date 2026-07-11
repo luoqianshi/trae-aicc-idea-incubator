@@ -424,120 +424,6 @@
     transition: width 0.3s ease;
   }
 
-  /* ---------- Mission Card & Choice Cards ---------- */
-  .mission-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-card);
-    padding: 40px;
-    margin-bottom: 32px;
-    backdrop-filter: blur(20px);
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
-  }
-  .mission-card:hover {
-    border-color: var(--border-strong);
-    box-shadow: 0 0 40px rgba(34, 197, 94, 0.06);
-  }
-  .mission-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 28px;
-  }
-  .mission-avatar {
-    width: 42px; height: 42px;
-    border-radius: 12px;
-    background: #0a0a0a;
-    border: 1px solid var(--accent);
-    display: grid; place-items: center;
-    flex-shrink: 0;
-    overflow: hidden;
-  }
-  .mission-avatar img { width: 70%; height: 70%; object-fit: contain; }
-  .mission-bubble {
-    flex: 1;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    border-radius: 18px 18px 18px 4px;
-    padding: 16px 20px;
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--text-tertiary);
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .mission-bubble strong { color: var(--accent); font-weight: 600; }
-  .mission-card.visible .mission-bubble,
-  .mission-card.in-view .mission-bubble {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .choice-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
-    margin-top: 20px;
-  }
-  .choice-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 18px 14px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    color: var(--text-secondary);
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  .choice-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--accent);
-    color: var(--text-primary);
-    box-shadow: 0 8px 24px rgba(34, 197, 94, 0.12);
-  }
-  .choice-card:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-  .choice-card.completed {
-    border-color: var(--accent);
-    background: rgba(34, 197, 94, 0.08);
-    color: var(--accent);
-  }
-  .choice-card.completed::after {
-    content: "✓";
-    position: absolute;
-    top: 8px; right: 10px;
-    font-size: 12px;
-    color: var(--accent);
-  }
-  .choice-card svg { stroke: currentColor; }
-
-  .user-feedback {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 18px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
-  }
-  .user-feedback span {
-    background: rgba(34, 197, 94, 0.12);
-    border: 1px solid rgba(34, 197, 94, 0.3);
-    color: var(--accent-highlight);
-    border-radius: 18px 18px 4px 18px;
-    padding: 10px 16px;
-    font-size: 13px;
-  }
-
   /* ---------- Chapter Visual: Timeline ---------- */
   .chapter-visual {
     display: flex;
@@ -1108,8 +994,6 @@
     .mobile-progress { display: block; }
     .hero h1 { font-size: 40px; }
     .hero-cta { justify-content: center; }
-    .mission-card { padding: 24px; }
-    .choice-grid { grid-template-columns: repeat(2, 1fr); }
     .result-showcase { grid-template-columns: 1fr; }
     .step-grid { grid-template-columns: 1fr; }
   }
@@ -1123,8 +1007,6 @@
     .section-sub { margin-left: 0; }
     .hero h1 { font-size: 34px; letter-spacing: -1px; }
     .hero p { font-size: 15px; }
-    .choice-grid { grid-template-columns: 1fr; }
-    .mission-bubble { font-size: 14px; padding: 14px 16px; }
     .tracker-title { display: none; }
     .mindmap-grid { grid-template-columns: 1fr; }
     .chapter-visual { flex-direction: column; align-items: flex-start; }
@@ -1409,33 +1291,6 @@
 <!-- ===================== 01 · 播种 ===================== -->
 <section id="sow">
   <div class="container">
-    <div class="mission-card reveal">
-      <div class="mission-header">
-        <div class="mission-avatar"><img src="assets/trae_dark.png" alt="TRAE Work"></div>
-        <div class="mission-bubble">
-          欢迎来到灵感孵化舱。第一步，我们需要把大赛模板喂给我，并开启 <strong>brainstorming</strong> 技能。完成下方任意动作即可推进。
-        </div>
-      </div>
-      <div class="choice-grid" data-mission="sow">
-        <button class="choice-card" data-action="download-template" type="button">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span>下载模板</span>
-        </button>
-        <button class="choice-card" data-action="install-skill" type="button">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-          <span>安装 brainstorming 技能</span>
-        </button>
-        <button class="choice-card" data-action="copy-prompt-sow" type="button">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <span>复制播种提示词</span>
-        </button>
-        <button class="choice-card" data-action="screenshot-sow" type="button">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span>查看截图示意</span>
-        </button>
-      </div>
-    </div>
-
     <div class="section-head reveal">
       <span class="section-num">01</span>
       <h2 class="section-title">播种<span class="accent">。</span>种下你的灵感</h2>
@@ -1553,25 +1408,6 @@
 <!-- ===================== 02 · 浇灌 ===================== -->
 <section id="water">
   <div class="container">
-    <div class="mission-card reveal">
-      <div class="mission-header">
-        <div class="mission-avatar"><img src="assets/trae_dark.png" alt="TRAE Work"></div>
-        <div class="mission-bubble">
-          很好，模板已经就位。接下来，我会通过 <strong>5-10 轮结构化对话</strong> 帮你把模糊灵感打磨成清晰方案。准备好开始迭代了吗？
-        </div>
-      </div>
-      <div class="choice-grid" data-mission="water">
-        <button class="choice-card" data-action="copy-prompt-water" type="button">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <span>复制浇灌提示词</span>
-        </button>
-        <button class="choice-card" data-action="screenshot-water" type="button">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span>查看对话截图</span>
-        </button>
-      </div>
-    </div>
-
     <div class="section-head reveal">
       <span class="section-num">02</span>
       <h2 class="section-title">浇灌<span class="accent">。</span>多轮对话迭代</h2>
@@ -1648,29 +1484,6 @@
 <!-- ===================== 03 · 修剪 ===================== -->
 <section id="prune">
   <div class="container">
-    <div class="mission-card reveal">
-      <div class="mission-header">
-        <div class="mission-avatar"><img src="assets/trae_dark.png" alt="TRAE Work"></div>
-        <div class="mission-bubble">
-          对话已经有了雏形，现在进入<strong>修剪阶段</strong>：把碎片信息整理成结构化方案，并导出报名所需的 md 文件。
-        </div>
-      </div>
-      <div class="choice-grid" data-mission="prune">
-        <button class="choice-card" data-action="organize-thoughts" type="button">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
-          <span>整理思路</span>
-        </button>
-        <button class="choice-card" data-action="copy-prompt-prune" type="button">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <span>导出 md</span>
-        </button>
-        <button class="choice-card" data-action="screenshot-prune" type="button">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span>查看修剪截图</span>
-        </button>
-      </div>
-    </div>
-
     <div class="section-head reveal">
       <span class="section-num">03</span>
       <h2 class="section-title">修剪<span class="accent">。</span>整理产品思路</h2>
@@ -1780,29 +1593,6 @@
 <!-- ===================== 04 · 绽放 ===================== -->
 <section id="bloom">
   <div class="container">
-    <div class="mission-card reveal">
-      <div class="mission-header">
-        <div class="mission-avatar"><img src="assets/trae_dark.png" alt="TRAE Work"></div>
-        <div class="mission-bubble">
-          最后一步，让方案<strong>绽放</strong>：用前端生成技能把文字创意变成可交互的 HTML Demo，然后一键投稿。
-        </div>
-      </div>
-      <div class="choice-grid" data-mission="bloom">
-        <button class="choice-card" data-action="copy-prompt-bloom" type="button">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          <span>生成 HTML Demo</span>
-        </button>
-        <button class="choice-card" data-action="screenshot-bloom" type="button">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span>查看绽放截图</span>
-        </button>
-        <button class="choice-card" data-action="go-submit" type="button">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          <span>去报名</span>
-        </button>
-      </div>
-    </div>
-
     <div class="section-head reveal">
       <span class="section-num">04</span>
       <h2 class="section-title">绽放<span class="accent">。</span>生成你的作品</h2>
@@ -2459,7 +2249,7 @@ window.addEventListener('scroll', () => {
 updateActiveSection();
 
 // ---- Scroll Reveal ----
-const reveals = document.querySelectorAll('.reveal, .mission-card, .timeline-item');
+const reveals = document.querySelectorAll('.reveal, .timeline-item');
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -2470,80 +2260,6 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
 reveals.forEach(el => observer.observe(el));
-
-// ---- Choice Cards ----
-const CHOICE_KEY = 'trae-incubator-choices';
-
-function getChoices() {
-  try {
-    return JSON.parse(localStorage.getItem(CHOICE_KEY)) || {};
-  } catch (e) {
-    return {};
-  }
-}
-
-function saveChoices(state) {
-  try {
-    localStorage.setItem(CHOICE_KEY, JSON.stringify(state));
-  } catch (e) {
-    // silently fail in private mode
-  }
-}
-
-function toggleChoice(btn, action) {
-  const state = getChoices();
-  const mission = btn.closest('.choice-grid')?.dataset.mission || 'global';
-  const key = `${mission}:${action}`;
-  const completed = !state[key];
-  state[key] = completed;
-  saveChoices(state);
-  btn.classList.toggle('completed', completed);
-
-  const missionCard = btn.closest('.mission-card');
-  let feedback = missionCard?.querySelector('.user-feedback');
-  if (!feedback && missionCard) {
-    feedback = document.createElement('div');
-    feedback.className = 'user-feedback';
-    feedback.innerHTML = '<span>已完成该动作，继续下一步吧。</span>';
-    missionCard.appendChild(feedback);
-  }
-  if (feedback) {
-    feedback.style.opacity = '1';
-    feedback.style.transform = 'translateY(0)';
-  }
-}
-
-document.querySelectorAll('.choice-card').forEach(btn => {
-  const action = btn.dataset.action;
-  const mission = btn.closest('.choice-grid')?.dataset.mission || 'global';
-  const state = getChoices();
-  if (state[`${mission}:${action}`]) btn.classList.add('completed');
-
-  btn.addEventListener('click', () => {
-    if (action === 'download-template') downloadTemplate();
-    else if (action === 'copy-prompt-sow') {
-      const copyBtn = document.getElementById('prompt-sow')?.closest('.prompt-card')?.querySelector('.copy-btn');
-      if (copyBtn) copyBtn.click();
-    }
-    else if (action === 'copy-prompt-prune') {
-      const copyBtn = document.getElementById('prompt-prune')?.closest('.prompt-card')?.querySelector('.copy-btn');
-      if (copyBtn) copyBtn.click();
-    }
-    else if (action === 'copy-prompt-bloom') {
-      const copyBtn = document.getElementById('prompt-bloom')?.closest('.prompt-card')?.querySelector('.copy-btn');
-      if (copyBtn) copyBtn.click();
-    }
-    else if (action === 'screenshot-sow') showScreenshot();
-    else if (action === 'screenshot-water') showScreenshot2();
-    else if (action === 'screenshot-prune') showScreenshot3();
-    else if (action === 'screenshot-bloom') showScreenshot6();
-    else if (action === 'go-submit') {
-      window.open('https://forum.trae.cn/c/38-category/39-category/39', '_blank');
-    }
-
-    toggleChoice(btn, action);
-  });
-});
 
 // ---- Particle Canvas ----
 (function() {

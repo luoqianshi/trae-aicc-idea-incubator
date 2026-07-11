@@ -1,7 +1,7 @@
 # 自定义目录
 versions/*
 docs/*
-docs/superpowers/
-docs/superpowers/**
+!docs/superpowers/
+!docs/superpowers/**
 private/*
 .superpowers/*

@@ -66,7 +66,7 @@
   - 副标题：从灵光一闪到报名提交，四步孵化...
 - CTA 区（共 4 个，按主/次分组）：
   - 主按钮：开始孵化之旅
-  - 次按钮：TRAE Work Go Go Go!
+  - 次按钮：TRAE Work
   - 次按钮：Idea Hall
   - 次按钮：Demo Wall
 - 底部保留 “SCROLL” 滚动提示。
